@@ -1,108 +1,112 @@
 <html>
 <head>
-<script class="removable" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script class="removable">
-    var id_prefix;
+    <script class="removable" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script class="removable">
+        var id_prefix;
 
-    $(document).ready(function(){
-        $(".tf_pframe").css('height','500px');        
-        $(".tf_pframe").on('click',function(event){
-                    
-            var x = event.clientX;
-            var y = event.clientY;
-            var photoRect = ($('.tf_pframe')[0]).getBoundingClientRect();
-            var xp = (x - photoRect.left)*100.0/(photoRect.width);
-            var yp = (y - photoRect.top)*100.0/(photoRect.height);
-            var aspectr = photoRect.height * 1.0 / photoRect.width;
-            var boxheight = ($("#select_area")[0]).value;
-            var mWp = boxheight*aspectr;
-            var mHp = boxheight;
-            
-            var id = id_prefix+'tf_marker-'+($(".tf_marker").length+1);            
-            
-            $(".tf_pframe").append(
-                $("<div/>")
-                .addClass("tf_marker")
-                .css('left',(xp-0.5*mWp)+'%')
-                .css('top',(yp-0.5*mHp)+'%')
-                .css('width',mWp+'%')
-                .css('height',mHp+'%')
-                .attr('id',id)
-                .attr('onmouseover','pf_showDetails("'+id+'",event)')
-                .attr('onmouseout','pf_mouseOut("'+id+'")')                
-            );            
-            
-            var name = prompt('Who is this ?');            
-            $("#"+id).attr('data-message',name);
-            
+        $(document).ready(function () {
+            $(".tf_pframe").css('height', '500px');
+            $(".tf_pframe").on('click', function (event) {
+
+                var x = event.clientX;
+                var y = event.clientY;
+                var photoRect = ($('.tf_pframe')[0]).getBoundingClientRect();
+                var xp = (x - photoRect.left) * 100.0 / (photoRect.width);
+                var yp = (y - photoRect.top) * 100.0 / (photoRect.height);
+                var aspectr = photoRect.height * 1.0 / photoRect.width;
+                var boxheight = ($("#select_area")[0]).value;
+                var mWp = boxheight * aspectr;
+                var mHp = boxheight;
+
+                var id = id_prefix + 'tf_marker-' + ($(".tf_marker").length + 1);
+
+                $(".tf_pframe").append(
+                    $("<div/>")
+                        .addClass("tf_marker")
+                        .css('left', (xp - 0.5 * mWp) + '%')
+                        .css('top', (yp - 0.5 * mHp) + '%')
+                        .css('width', mWp + '%')
+                        .css('height', mHp + '%')
+                        .attr('id', id)
+                        .attr('onmouseover', 'pf_showDetails("' + id + '",event)')
+                        .attr('onmouseout', 'pf_mouseOut("' + id + '")')
+                );
+
+                var name = prompt('Who is this ?');
+                $("#" + id).attr('data-message', name);
+
+            });
+
         });
-                
-    });
-</script>
+    </script>
 </head>
 <body style="margin: 100px">
 
 <div class="removable">
-    <script>        
-        function pf_loadImg(){
+    <script>
+        function pf_loadImg() {
             var path = prompt("Path to the image file (ex. kky_1910.jpg).");
             if (path == undefined || path.length == 0) return;
-            
+
             // remove all special characters
-            
-            var path_ = path.replace(/[^a-zA-Z0-9_-]/g,'');
-            
-            if (path_.search("___")!= -1){
+
+            var path_ = path.replace(/[^a-zA-Z0-9_-]/g, '');
+
+            if (path_.search("___") != -1) {
                 alert("The filename cannot contain three consecutive underscores '___'");
                 return;
-            }            
-            
-            $("img").one("load", function() {
-              resizeWidthOfFrame();
-            })                        
-            $(".tf_photo").attr('src',path);
-            $("#button_load_img").attr('value','Loaded image: '+path);
-            $("#button_load_img").attr('disabled','true');
+            }
+
+            $("img").one("load", function () {
+                resizeWidthOfFrame();
+            })
+            $(".tf_photo").attr('src', path);
+            $("#button_load_img").attr('value', 'Loaded image: ' + path);
+            $("#button_load_img").attr('disabled', 'true');
             $(".step1").removeClass("redstep").addClass("greenstep");
 
-            id_prefix = path_+"___";
+            id_prefix = path_ + "___";
             // assign ids 
             // tf_pframe, tf_photo_message_box_floating, tf_photo_message_box
-            $(".tf_pframe").attr('id',id_prefix+"tf_pframe");
-            $(".tf_photo_message_box_floating").attr('id',id_prefix+"tf_photo_message_box_floating");
-            $(".tf_photo_message_box").attr('id',id_prefix+"tf_photo_message_box");
+            $(".tf_pframe").attr('id', id_prefix + "tf_pframe");
+            $(".tf_photo_message_box_floating").attr('id', id_prefix + "tf_photo_message_box_floating");
+            $(".tf_photo_message_box").attr('id', id_prefix + "tf_photo_message_box");
 
             // calculate the image width and set the frame width and height accordingly
             // load event should fire
         }
-        function resizeWidthOfFrame(){
+
+        function resizeWidthOfFrame() {
             var photoRect = ($('.tf_photo')[0]).getBoundingClientRect();
-            $(".tf_pframe").css('width',photoRect.width+'px');        
-            $("#"+id_prefix+"tf_photo_message_box").css('width',photoRect.width+'px');
+            $(".tf_pframe").css('width', photoRect.width + 'px');
+            $("#" + id_prefix + "tf_photo_message_box").css('width', photoRect.width + 'px');
         }
-        function pf_finalizeSizes(){
+
+        function pf_finalizeSizes() {
             // set selection area
-            var size = ($("#select_area")[0]).value;           
+            var size = ($("#select_area")[0]).value;
             if (size == 0) return;
-        
-            $(".tf_marker_dummy").remove();        
-            $("#button_selection_area").attr('disabled','true');
+
+            $(".tf_marker_dummy").remove();
+            $("#button_selection_area").attr('disabled', 'true');
             // 
-            $("#button_set_height").attr('disabled','true');            
-            $("#select_area").attr('disabled','true');  
-            $(".step2").removeClass("redstep").addClass("greenstep");            
+            $("#button_set_height").attr('disabled', 'true');
+            $("#select_area").attr('disabled', 'true');
+            $(".step2").removeClass("redstep").addClass("greenstep");
         }
-        function pf_setFrameHeight(){
+
+        function pf_setFrameHeight() {
             var height = prompt("Height in pixels. (Ex: 1000)");
             if (height == undefined || height.length == 0) return;
-            $('.tf_pframe').css('width','auto');
-            $('.tf_pframe').css('height',height+'px');
+            $('.tf_pframe').css('width', 'auto');
+            $('.tf_pframe').css('height', height + 'px');
             // revise the width also
             resizeWidthOfFrame();
-            $("#button_set_height").attr('value','Height :'+height+'px');
+            $("#button_set_height").attr('value', 'Height :' + height + 'px');
         }
-        function pf_selectionAreaNew(){
-            var size = ($("#select_area")[0]).value;           
+
+        function pf_selectionAreaNew() {
+            var size = ($("#select_area")[0]).value;
             if (size == 0) return;
 
             var photoRect = ($('.tf_pframe')[0]).getBoundingClientRect();
@@ -110,102 +114,121 @@
             var yp = 50;
             var aspectr = photoRect.height * 1.0 / photoRect.width;
             var boxheight = size;
-            var mWp = boxheight*aspectr;
+            var mWp = boxheight * aspectr;
             var mHp = boxheight;
-                        
+
             $(".tf_marker_dummy").remove();
             $(".tf_pframe").append(
                 $("<div/>")
-                .addClass("tf_marker")
-                .addClass("tf_marker_dummy")
-                .addClass("removable")
-                .css('left',(xp-0.5*mWp)+'%')
-                .css('top',(yp-0.5*mHp)+'%')
-                .css('width',mWp+'%')
-                .css('height',mHp+'%')
-            );            
-            
+                    .addClass("tf_marker")
+                    .addClass("tf_marker_dummy")
+                    .addClass("removable")
+                    .css('left', (xp - 0.5 * mWp) + '%')
+                    .css('top', (yp - 0.5 * mHp) + '%')
+                    .css('width', mWp + '%')
+                    .css('height', mHp + '%')
+            );
+
         }
-        function pf_Undo(){
+
+        function pf_Undo() {
             var num = $('.tf_marker').length;
             if (num == 0) return;
-            var id = id_prefix+'tf_marker-'+num;
-            $('#'+id).remove();
+            var id = id_prefix + 'tf_marker-' + num;
+            $('#' + id).remove();
         }
-        function tf_cleanup(){
+
+        function tf_cleanup() {
             $('.removable').remove();
             $(".step4").removeClass("redstep").addClass("greenstep");
         }
-    </script>    
+    </script>
     <h2>Instructions</h2>
     <style>
-        .redstep {color: red;}
-        .greenstep {color: green;}
+        .redstep {
+            color: red;
+        }
+
+        .greenstep {
+            color: green;
+        }
     </style>
     <ul>
-        <li class="redstep step1">Step 1: <input id="button_load_img" type="button" value="Enter file name of image" onclick="pf_loadImg()"/></li>    
+        <li class="redstep step1">Step 1: <input id="button_load_img" type="button" value="Enter file name of image"
+                                                 onclick="pf_loadImg()"/></li>
         <br/>
         <li class="redstep step2">
             Step 2: Adjust sizes of the photo, selection box.<br/>
-            Height of the photo:&nbsp;<input id="button_set_height" type="button" value="Height: 500px" onclick="pf_setFrameHeight()"/><br/>
-            Height of selection box:&nbsp;<select id="select_area" onchange="pf_selectionAreaNew()";>
-                <option value="0">%</option>
-                <option value="5">5%</option>
-                <option value="6">6%</option>                
-                <option value="7">7%</option>
-                <option value="8">8%</option>
-                <option value="9">9%</option>
-                <option value="10">10%</option>                
-                <option value="12">12%</option>
-                <option value="15">15%</option>
-            </select> (Look to the image area below for a sample selection box)
+            Height of the photo:&nbsp;<input id="button_set_height" type="button" value="Height: 500px"
+                                             onclick="pf_setFrameHeight()"/><br/>
+            Height of selection box:&nbsp;<select id="select_area" onchange="pf_selectionAreaNew()" ;>
+            <option value="0">%</option>
+            <option value="5">5%</option>
+            <option value="6">6%</option>
+            <option value="7">7%</option>
+            <option value="8">8%</option>
+            <option value="9">9%</option>
+            <option value="10">10%</option>
+            <option value="12">12%</option>
+            <option value="15">15%</option>
+        </select> (Look to the image area below for a sample selection box)
             <br/>
-            <input id="button_selection_area" type="button" value="Finalize sizes" onclick="pf_finalizeSizes()"/>            
+            <input id="button_selection_area" type="button" value="Finalize sizes" onclick="pf_finalizeSizes()"/>
         </li>
         <br/>
-        <li class="step3">Step 3: Place markers by clicking on the image. Enter the message to be shown in the prompt that appears. 
-        <br/>If needed, use <input type="button" value="Undo" onclick="pf_Undo()"/> button to remove previously added markers.</li>
+        <li class="step3">Step 3: Place markers by clicking on the image. Enter the message to be shown in the prompt
+            that appears.
+            <br/>If needed, use <input type="button" value="Undo" onclick="pf_Undo()"/> button to remove previously
+            added markers.
+        </li>
         <br/>
-        <li class="redstep step4">Step 4: When done with placing markers, <input type="button" value="Cleanup page before saving" onclick="tf_cleanup()"/></li>
+        <li class="redstep step4">Step 4: When done with placing markers, <input type="button"
+                                                                                 value="Cleanup page before saving"
+                                                                                 onclick="tf_cleanup()"/></li>
         <li class="redstep step5">Step 5: Finally, save the work by going to browser's File Menu -- Save command.</li>
     </ul>
-    
-    <br/>    
+
+    <br/>
     <style class="removable">
-    .tf_pframe {
-        cursor: crosshair;
-    }
-    .tf_marker{
-        border: 2px solid red;
-    }
+        .tf_pframe {
+            cursor: crosshair;
+        }
+
+        .tf_marker {
+            border: 2px solid red;
+        }
     </style>
     <hr/>
 </div>
 
 <div>
     <style>
-        .tf_pframe{           
-            position: relative;             
+        .tf_pframe {
+            position: relative;
             text-align: center;
             border: 1px solid lightgray;
             /*width: 1000px;*/
             /*height: 500px;*/
         }
-        .tf_pframe img{
-            height: 100%; 
-        }        
-        .tf_marker{
+
+        .tf_pframe img {
+            height: 100%;
+        }
+
+        .tf_marker {
             position: absolute;
             cursor: hand;
         }
-        .tf_photo_message_box{
+
+        .tf_photo_message_box {
             position: relative;
             /*width: 500px;*/
             height: 50px;
             font-size: 1em;
             text-align: center;
         }
-        .tf_photo_message_box_floating{
+
+        .tf_photo_message_box_floating {
             position: absolute;
             visibility: hidden;
             width: 150px;
@@ -215,38 +238,38 @@
         }
     </style>
     <script>
-        function pf_mouseOut(markerId){
+        function pf_mouseOut(markerId) {
             // extract id prefix
-            var prefix = markerId.replace(/___.*/,'')+"___";
-            
-            var floatingbox = document.getElementById(prefix+'tf_photo_message_box_floating');
+            var prefix = markerId.replace(/___.*/, '') + "___";
+
+            var floatingbox = document.getElementById(prefix + 'tf_photo_message_box_floating');
             floatingbox.style.visibility = "hidden";
-            document.getElementById(prefix+'tf_photo_message_box').innerHTML = "Place cursor over the faces to know more.";            
+            document.getElementById(prefix + 'tf_photo_message_box').innerHTML = "Place cursor over the faces to know more.";
         }
-        
-        function pf_showDetails(markerId, event){
-        
-            var prefix = markerId.replace(/___.*/,'')+"___";
-            var c_rect = document.getElementById(prefix+"tf_pframe").getBoundingClientRect();
-            var elem = document.getElementById(markerId);            
+
+        function pf_showDetails(markerId, event) {
+
+            var prefix = markerId.replace(/___.*/, '') + "___";
+            var c_rect = document.getElementById(prefix + "tf_pframe").getBoundingClientRect();
+            var elem = document.getElementById(markerId);
             var rect = elem.getBoundingClientRect();
             var message = elem.getAttribute('data-message');
-            
-            document.getElementById(prefix+'tf_photo_message_box').innerHTML = message;
-            
-            var floatingbox = document.getElementById(prefix+'tf_photo_message_box_floating');
-            floatingbox.innerHTML = message;           
+
+            document.getElementById(prefix + 'tf_photo_message_box').innerHTML = message;
+
+            var floatingbox = document.getElementById(prefix + 'tf_photo_message_box_floating');
+            floatingbox.innerHTML = message;
             floatingbox.style.visibility = "visible";
-            floatingbox.style.left = (rect.left-c_rect.left+rect.width+10)+"px";
-            floatingbox.style.top = (rect.top-c_rect.top-10)+"px";
-            
+            floatingbox.style.left = (rect.left - c_rect.left + rect.width + 10) + "px";
+            floatingbox.style.top = (rect.top - c_rect.top - 10) + "px";
+
         }
     </script>
     <br/>
     <div class="tf_pframe">
-        <img class="tf_photo" />
-        <div class="tf_photo_message_box_floating">Place cursor over the faces to know more.</div>            
-    </div>   
+        <img class="tf_photo"/>
+        <div class="tf_photo_message_box_floating">Place cursor over the faces to know more.</div>
+    </div>
     <br/>
     <div class="tf_photo_message_box">Place cursor over the faces to know more.</div>
 </div>

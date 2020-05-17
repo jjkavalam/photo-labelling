@@ -9,3 +9,21 @@ Note:
 required
 - NO user data is saved anywhere outside the file; the internet connection is
 used to download certain required code libraries only.
+
+# How to run ?
+
+```
+python editor.py <...args>
+```
+
+# How it works ?
+
+The svg is placed inline within the HTML template; and then
+analyzed for `circle`, `ellipse` with `title` and `desc` (optional)
+
+# How to build an executable ?
+
+```
+pip install -r requirements.txt
+pyinstaller --onefile editor.py
+```

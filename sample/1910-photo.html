@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi">
-    <title>Kavalam Family 1910 Photo</title>
+    <title>Kavalam Family Photo 1910</title>
     <style>.snackbar-container{transition:all .5s ease;transition-property:top,right,bottom,left,opacity;font-family:Roboto,sans-serif;font-size:14px;min-height:14px;background-color:#070b0e;position:fixed;display:flex;justify-content:space-between;align-items:center;color:#fff;line-height:22px;padding:18px 24px;bottom:-100px;top:-100px;opacity:0;z-index:9999}.snackbar-container .action{background:inherit;display:inline-block;border:none;font-size:inherit;text-transform:uppercase;color:#4caf50;margin:0 0 0 24px;padding:0;min-width:min-content;cursor:pointer}@media (min-width:640px){.snackbar-container{min-width:288px;max-width:568px;display:inline-flex;border-radius:2px;margin:24px}}@media (max-width:640px){.snackbar-container{left:0;right:0;width:100%}}.snackbar-pos.bottom-center{top:auto!important;bottom:0;left:50%;transform:translate(-50%,0)}.snackbar-pos.bottom-left{top:auto!important;bottom:0;left:0}.snackbar-pos.bottom-right{top:auto!important;bottom:0;right:0}.snackbar-pos.top-left{bottom:auto!important;top:0;left:0}.snackbar-pos.top-center{bottom:auto!important;top:0;left:50%;transform:translate(-50%,0)}.snackbar-pos.top-right{bottom:auto!important;top:0;right:0}@media (max-width:640px){.snackbar-pos.bottom-center,.snackbar-pos.top-center{left:0;transform:none}}</style>
 </head>
 <body>
@@ -34,7 +34,7 @@
     }
 </style>
 <div class="heading">
-    <h1>Kavalam Family 1910 Photo</h1>
+    <h1>Kavalam Family Photo 1910</h1>
 </div>
 
 <div class="container">
@@ -535,6 +535,39 @@ a.current.style.top="-100px",a.current.style.bottom="-100px")}.bind(a.snackbar),
 var c=function(){var a={},b=!1,d=0,e=arguments.length;"[object Boolean]"===Object.prototype.toString.call(arguments[0])&&(b=arguments[0],d++);for(var f=function(d){for(var e in d)Object.prototype.hasOwnProperty.call(d,e)&&(b&&"[object Object]"===Object.prototype.toString.call(d[e])?a[e]=c(!0,a[e],d[e]):a[e]=d[e])};d<e;d++){var g=arguments[d];f(g)}return a};return a});
 //# sourceMappingURL=snackbar.min.js.map</script>
 <script>
+    /**
+     * Debounce functions for better performance
+     * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+     * @param  {Function} fn The function to debounce
+     * https://gomakethings.com/debouncing-your-javascript-events/
+     */
+    var debounce = function (fn) {
+
+        // Setup a timer
+        var timeout;
+
+        // Return a function to run debounced
+        return function () {
+
+            // Setup the arguments
+            var context = this;
+            var args = arguments;
+
+            // If there's a timer, cancel it
+            if (timeout) {
+                window.cancelAnimationFrame(timeout);
+            }
+
+            // Setup the new requestAnimationFrame()
+            timeout = window.requestAnimationFrame(function () {
+                fn.apply(context, args);
+            });
+
+        }
+
+    };
+</script>
+<script>
     function sizeImage() {
         var svg$ = document.querySelector('svg');
         var container$ = document.querySelector(".container");
@@ -561,12 +594,12 @@ var c=function(){var a={},b=!1,d=0,e=arguments.length;"[object Boolean]"===Objec
             var title = titleEl.node.innerHTML;
             // remove title so that there is no default tootlip
             titleEl.remove();
-            el.click(function() {
+            el.click(debounce(function() {
                 Snackbar.show({
                     text: title,
                     pos: 'bottom-center'
                 });
-            });
+            }));
         }
     });
 

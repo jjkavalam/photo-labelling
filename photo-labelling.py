@@ -46,6 +46,39 @@ template="""<!DOCTYPE html>
 </div>
 %LIB_SCRIPTS%
 <script>
+    /**
+     * Debounce functions for better performance
+     * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+     * @param  {Function} fn The function to debounce
+     * https://gomakethings.com/debouncing-your-javascript-events/
+     */
+    var debounce = function (fn) {
+
+        // Setup a timer
+        var timeout;
+
+        // Return a function to run debounced
+        return function () {
+
+            // Setup the arguments
+            var context = this;
+            var args = arguments;
+
+            // If there's a timer, cancel it
+            if (timeout) {
+                window.cancelAnimationFrame(timeout);
+            }
+
+            // Setup the new requestAnimationFrame()
+            timeout = window.requestAnimationFrame(function () {
+                fn.apply(context, args);
+            });
+
+        }
+
+    };
+</script>
+<script>
     function sizeImage() {
         var svg$ = document.querySelector('svg');
         var container$ = document.querySelector(".container");
@@ -72,12 +105,12 @@ template="""<!DOCTYPE html>
             var title = titleEl.node.innerHTML;
             // remove title so that there is no default tootlip
             titleEl.remove();
-            el.click(function() {
+            el.click(debounce(function() {
                 Snackbar.show({
                     text: title,
                     pos: 'bottom-center'
                 });
-            });
+            }));
         }
     });
 

@@ -13,7 +13,7 @@ used to download certain required code libraries only.
 # How to run ?
 
 ```
-python editor.py <...args>
+python photo-labelling.py <...args>
 ```
 
 # How it works ?
@@ -25,5 +25,6 @@ analyzed for `circle`, `ellipse` with `title` and `desc` (optional)
 
 ```
 pip install -r requirements.txt
-pyinstaller --onefile editor.py
+pyinstaller --add-data="lib/*;lib" --onefile photo-labelling.py
+
 ```

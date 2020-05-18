@@ -1,8 +1,8 @@
 # photo-labelling
 
-- Open editor.html to label a photo
-- When done, press cleanup button to make the html file ready for export
-- Save the file from the browser and share with friends !
+Using an svg editor like inkscape, make an svg file with the photo (embedded) and the parts to be labelled marked with `circle`, `ellipse`; put the label text within the `title` child tag of the cirlce or ellipse.
+
+Next, use the python script provided here to make a shareable photo viewer from it.
 
 Note: 
 - The shared file cannot be viewed offline; an internet connection is
